@@ -21,53 +21,48 @@ const PLAYERS = [
   "Slingo",
 ];
 
-// Initialize players with image and strength
+// initialize players with image and strength
 const initPlayers = (players) => {
-  return players.map((e, index) => {
-    return {
-      name: e,
-      strength: getRandomStrength(),
-      image: "images/super-" + (index + 1) + ".png",
-      type: index % 2 === 0 ? "hero" : "villain",
-    };
-  });
+  let detailedPlayers = [];
+  // Create players using for loop
+  // Type your code here
+  for (i = 0; i < players.length; i++) {
+    const player = {};
+    player.name = players[i];
+    player.strength = getRandomStrength();
+    player.image = `images/super-${i + 1}.png`;
+    player.type = i % 2 == 0 ? "hero" : "villain";
+    detailedPlayers.push(player);
+  }
+  return detailedPlayers;
 };
 
-// Getting random strength
+// getting random strength
 const getRandomStrength = () => {
-  return Math.ceil(Math.random() * 100);
-};
-
-// Build player template
-const view = (playerObj) => {
-  let player = document.createElement("div");
-  player.classList.add("player");
-  let image = document.createElement("img");
-  image.setAttribute("src", playerObj.image);
-  image.setAttribute("alt", "");
-  let name = document.createElement("div");
-  name.className = "name";
-  name.textContent = playerObj.name;
-  let strength = document.createElement("div");
-  strength.textContent = playerObj.strength;
-  strength.className = "strength";
-  player.append(image, name, strength);
-  return player;
+  // Return a random integer (0,100]
+  // Note: You can use Math.random() and Math.ceil()
+  const randomStrength = Math.ceil(Math.random() * 100 + 1);
+  return randomStrength;
 };
 
 const buildPlayers = (players, type) => {
-  let wrapper = document.createElement("div");
+  let fragment = "";
 
-  players
-    .filter((player) => player.type === type)
-    .forEach((player) => {
-      let playerView = view(player);
-      wrapper.appendChild(playerView);
-    });
-
-  return wrapper.innerHTML;
+  // Loop through players and accumulate HTML template
+  // depending of type of player(hero|villain)
+  // Type your code here
+  for (let i = 0; i < players.length; i++) {
+    if (players[i].type == type) {
+      fragment += `
+            <div class="player">
+               <img src="${players[i].image}" alt=" ">
+               <div class="name"> ${players[i].name}</div>
+               <div class="strength">${players[i].strength}</div>
+            </div>`;
+    }
+  }
+  return fragment;
 };
-
 // Display players in HTML
 const viewPlayers = (players) => {
   document.getElementById("heroes").innerHTML = buildPlayers(players, "hero");
